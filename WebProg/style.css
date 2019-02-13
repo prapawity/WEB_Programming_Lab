@@ -1,0 +1,21 @@
+body{
+    background-color: whitesmoke;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    height: 1000vh;
+}
+form{
+    background-color: #973621;
+    border-color: white;
+    margin-bottom: 10%;
+    position: sticky;
+}
+#tableedu{
+    background-color: white;
+    border-color: gray;
+    border-collapse: collapse;
+    color: black;
+}
+img{
+    border-radius: 20%;
+}
