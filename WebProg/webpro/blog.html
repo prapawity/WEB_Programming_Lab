@@ -33,7 +33,7 @@
                 <small class="text-muted ml-5">Create Date: {{blog.createDate}}</small>
               </p>
               <a v-blind: href="https://www.facebook.com/" class="btn btn-primary">Go to my Facebook page</a>
-              <a v-if="blog.likes<30" href="#" class="btn btn-success" v-on:click="blog.likes +=1 ">I like this!</a>
+              <a v-if="blog.likes<30" class="btn btn-success" v-on:click.preventDefault();="blog.likes +=1">I like this!</a>
               <img v-if="blog.likes>=30" src="https://i.ytimg.com/vi/SfLV8hD7zX4/maxresdefault.jpg">
             </div>
           </div>
@@ -92,7 +92,8 @@
         del(comment){
           let index = this.blog.comments.indexOf(comment)
           this.blog.comments.splice(index,1)
-        }
+        },
+
       }
     });
     // v-if -> if likes reach 100 hide the "I like this!" button and show a five-star rating image
