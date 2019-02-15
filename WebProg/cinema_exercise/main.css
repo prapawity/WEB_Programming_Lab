@@ -1,6 +1,5 @@
-body{
-    height: 500vh;
-}
+body {}
+
 .my-nav {
     position: relative;
     width: 100%;
@@ -17,13 +16,19 @@ body{
     -o-background-size: cover;
     background-size: cover;
 }
+
 input[type=text] {
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
-  }
-  
-  /* When the input field gets focus, change its width to 100% */
-  input[type=text]:focus {
-    width: 30%;
-  }
+}
+
+/* When the input field gets focus, change its width to 100% */
+input[type=text]:focus {
+    width: 80%;
+}
+
+.test {
+    background: #000;
+    color: #fff
+}
