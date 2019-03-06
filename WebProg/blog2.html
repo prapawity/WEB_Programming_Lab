@@ -11,7 +11,7 @@
     crossorigin="anonymous" />
 </head>
 
-<body>
+<body style="background-color:black">
   <div id="app1">
     <div class="container">
       <div class="row">
@@ -20,11 +20,11 @@
         </div>
         <div class="col-md-6">
           <div class="input-group mb-3">
-            <div class="input-group-prepend" v-on:click="search()">
-              <span class="input-group-text" id="basic-addon1">Search</span>
+            <div class="input-group-prepend">
+              <button id="basic-addon1" v-on:click="search()">Search</button>
             </div>
             <input type="text" class="form-control" placeholder="Search post" aria-label="search" aria-describedby="basic-addon1"
-              id="search">
+              id="search" v-model="searchText">
           </div>
         </div>
       </div>
@@ -36,43 +36,22 @@
         You post too many posts. Please stop!!!
       </div>
       <div class="row">
-        <div class="col-md-4" v-for="blog in blogs" v-if="blog.showing">
-          <div class="card my-3">
-            <img :src="blog.image" class="card-img-top img-fluid" alt="..." />
-            <div class="card-body" :class="{test: blog.col}" v-on:click.self="changeBGColor(blog)">
-              <h5 class="card-title">
-                {{ blog.title }}
-                <span class="badge badge-success ml-5">Likes: {{blog.likes}}</span>
-              </h5>
-              <p class="card-text">
-                {{blog.content}}<br />
-                <small class="text-muted">Create By: {{blog.createBy}}</small>
-                <small class="text-muted ml-5">Create Date: {{blog.createDate}}</small>
-              </p>
-              <!--<button class="btn btn-primary">Go to my page</button>-->
-              <button class="btn btn-success" v-on:click="blog.likes += 1">I like this!</button>
-              <button class="btn btn-info" @click="showComment(blog)">{{blog.caser ? "Hide Comments":"Show comments"}}</button>
-              <div class="card mt-2 text-dark" v-for="(comment, index) in blog.comments" :key="index" v-show="blog.caser">
-                <div class="card-body">
-                  <h6 class="card-title">Comment {{index +1 }}</h6>
-                  <p class="card-text">
-                    {{comment.text}}<br />
-                    <small class="text-muted">Create By: {{comment.createBy}}</small>
-                    <small class="text-muted ml-5">Create Date: {{blog.createDate}}</small>
-                  </p>
-                </div>
-              </div>
-            </div>
+        <div class="col-md-4">
+          <div v-for="blog in blogSearchResult">
+            <card-blog :key="blog.id" :blog="blog"></card-blog>
           </div>
         </div>
+
       </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+  <script src="../examples-week6/component.js"></script>
   <script>
     var vm = new Vue({
       el: "#app1",
       data: {
+        searchText: "",
         blogs: [{
             showing: true,
             caser: false,
@@ -238,6 +217,14 @@
             like += this.blogs[index].likes
           }
           return like;
+        },
+        blogSearchResult() {
+          return this.blogs.filter(blog => {
+            let searchText = this.searchText.toLowerCase()
+            let isMatching = blog.title.toLowerCase().includes(searchText)
+            // let isMatchingContent = blog.content.toLowerCase().includes(searchText)
+            return isMatching
+          });
         },
       },
       watch: {
