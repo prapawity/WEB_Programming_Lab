@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div id="app1">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>My Blog Posts</h2>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button v-on:click="search()"><span class="input-group-text" id="basic-addon1">Search</span></button>
+            </div>
+            <input type="text" id="search" class="form-control" placeholder="Search post" aria-label="search" aria-describedby="basic-addon1">
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-primary" role="alert">
+        Total likes: {{countLike}}
+      </div>
+      <div class="alert alert-danger" role="alert" v-show="tooManyPost">
+        You post too many posts. Please stop!!!
+      </div>
+      <div class="row">
+        <div class="col-md-4" v-for="blog in blogs" v-if="blog.showing">
+          <div class="card my-3">
+            <img :src="blog.image" class="card-img-top img-fluid" alt="..." />
+            <div class="card-body" :class="{test: blog.col}" v-on:click.self="changeBGColor(blog)">
+              <h5 class="card-title">
+                {{ blog.title }}
+                <span class="badge badge-success ml-5">Likes: {{blog.likes}}</span>
+              </h5>
+              <p class="card-text">
+                {{blog.content}}<br />
+                <small class="text-muted">Create By: {{blog.createBy}}</small>
+                <small class="text-muted ml-5">Create Date: {{blog.createDate}}</small>
+              </p>
+              <!--<button class="btn btn-primary">Go to my page</button>-->
+              <button class="btn btn-success" v-on:click="blog.likes += 1">I like this!</button>
+              <button class="btn btn-info" @click="showComment(blog)">{{blog.caser ? "Hide Comments":"Show comments"}}</button>
+              <input type="Ïext" class="form-control" placeholder="Add comment" style="padding-top:10px" id="add">
+              <button id="basic-addon1" v-on:click="addComment(blog)">Add Comment</button>
+              <div class="card mt-2 text-dark" v-for="(comment, index) in blog.comments" :key="index" v-show="blog.caser">
+                <div class="card-body">
+                </div>
+                <div class="card-body">
+                  <h6 class="card-title">Comment {{index +1 }}</h6>
+                  <p class="card-text">
+                    {{comment.text}}<br />
+                    <small class="text-muted">Create By: {{comment.createBy}}</small>
+                    <small class="text-muted ml-5">Create Date: {{blog.createDate}}</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: "#app1",
+      data: {
+        searchText: "",
+        blogs: [{
+            showing: true,
+            caser: false,
+            col: false,
+            id: 1,
+            title: "Hello World!",
+            content: "I love Vue.js. It is so cool and easy!",
+            createBy: "Bundit",
+            createDate: new Date().toLocaleString(),
+            image: "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
+            fb: "https://vuejs.org",
+            likes: 0,
+            comments: [{
+                text: "Yes I agree!",
+                likes: 0,
+                createBy: "Jack"
+              },
+              {
+                text: "Could not agree more!",
+                likes: 0,
+                createBy: "John"
+              }
+            ]
+          },
+          {
+            showing: true,
+            caser: false,
+            col: false,
+            id: 2,
+            title: "Hello 12345!",
+            content: "An sincerity so extremity he additions. Her yet there truth merit. Mrs all projecting favourable now unpleasing. Son law garden chatty temper. Oh children provided to mr elegance marriage strongly. Off can admiration prosperous now devonshire diminution law.",
+            createBy: "Job",
+            createDate: new Date().toLocaleString(),
+            image: "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
+            fb: "https://vuejs.org",
+            likes: 0,
+            comments: [{
+                text: "He oppose at thrown desire of no.",
+                likes: 0,
+                createBy: "Jack"
+              },
+              {
+                text: "Noooooo!",
+                likes: 0,
+                createBy: "John"
+              },
+              {
+                text: "Announcing impression unaffected day his are unreserved indulgence.",
+                likes: 0,
+                createBy: "John"
+              }
+            ]
+          },
+          {
+            showing: true,
+            caser: false,
+            col: false,
+            id: 3,
+            title: "Hello World!",
+            content: "I love Vue.js. It is so cool and easy!",
+            createBy: "Bundit",
+            createDate: new Date().toLocaleString(),
+            image: "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
+            fb: "https://vuejs.org",
+            likes: 0,
+            comments: [{
+              text: "Yes I agree!",
+              likes: 0,
+              createBy: "Jack"
+            }]
+          },
+          {
+            showing: true,
+            caser: false,
+            col: false,
+            id: 4,
+            title: "Bah bah bah...",
+            content: "Folly words widow one downs few age every seven. If miss part by fact he park just shew.",
+            createBy: "Job",
+            createDate: new Date().toLocaleString(),
+            image: "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
+            fb: "https://vuejs.org",
+            likes: 0,
+            comments: [{
+                text: "Yes I agree!",
+                likes: 0,
+                createBy: "Jack"
+              },
+              {
+                text: "Could not agree more!",
+                likes: 0,
+                createBy: "John"
+              },
+              {
+                text: "Yes I agree!",
+                likes: 0,
+                createBy: "Job"
+              },
+              {
+                text: "Could not agree more!",
+                likes: 0,
+                createBy: "John"
+              }
+            ]
+          },
+          {
+            showing: true,
+            caser: false,
+            col: false,
+            id: 5,
+            title: "Hey hey hey!",
+            content: "Was certainty remaining engrossed applauded sir how discovery. Settled opinion how enjoyed greater joy adapted too shy. Now properly surprise expenses interest nor replying she she.",
+            createBy: "Bundit",
+            createDate: new Date().toLocaleString(),
+            image: "https://pbs.twimg.com/profile_images/875996174305472512/upM71pVR_400x400.jpg",
+            fb: "https://vuejs.org",
+            likes: 10,
+            comments: [{
+                text: "Yes I agree!",
+                likes: 0,
+                createBy: "Jack"
+              },
+              {
+                text: "Could not agree more!",
+                likes: 0,
+                createBy: "John"
+              }
+            ]
+          }
+        ],
+        selects: [],
+        tooManyPost: false,
+        maxPost: 3,
+      },
+      methods: {
+        changeBGColor(blog) {
+          blog.col = !blog.col;
+        },
+        showComment(bl) {
+          bl.caser = !bl.caser
+        },
+        search() {
+          var text = document.querySelector("#search").value
+          if (text == "") {
+            for (var index = 0; index < this.blogs.length; index++) {
+              this.blogs[index].showing = true
+            }
+          } else {
+            for (var index = 0; index < this.blogs.length; index++) {
+              if (this.blogs[index].title.toUpperCase().indexOf(text.toUpperCase()) > -1) {
+                this.blogs[index].showing = true
+              } else {
+                this.blogs[index].showing = false
+              }
+            }
+          }
+        },
+        addComment(blog) {
+          var text = document.querySelector("#add").value
+          blog.comments.push(text)
+        }
+      },
+      computed: {
+        countLike: function () {
+          var like = 0;
+          for (var index = 0; index < this.blogs.length; index++) {
+            like += this.blogs[index].likes
+          }
+          return like;
+        },
+        blogSearchResult() {
+          return this.blogs.filter(blog => {
+            let searchText = this.searchText.toLowerCase()
+            let isMatching = blog.title.toLowerCase().includes(searchText)
+            // let isMatchingContent = blog.content.toLowerCase().includes(searchText)
+            return isMatching
+          });
+        },
+      },
+      watch: {
+        blogs: function (oldValue, newValue) {
+          if (oldValue.length > this.maxPost) {
+            this.tooManyPost = true
+          } else {
+            this.tooManyPost = false
+          }
+        }
+
+      },
+    });
+  </script>;
+  <style>
+    .test {
+      background: #000;
+      color: #fff
+    }
+  </style>
+  </script>
+</body>
+
+</html>
