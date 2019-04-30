@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-light bg-light" style="background-color: blue !important;">
+    <a href="{% url 'logout' %}" style="right: 0" class="navbar-text"><button type="button" class="btn btn-link">ออกจากระบบ</button></a>
+</nav>
+<div class="container"
+     style="margin-top: 20px;height: 90vh;overflow-y: scroll;text-align: center;width: 100%;border: 10px solid black;border-radius: 20px">
+    <div class="row">
+        <div class="col-sm-2">
+            <h3>ประเภท</h3>
+        </div>
+        <div class="col-sm-4">
+            <h3>สาเหตุ</h3>
+        </div>
+        <div class="col-sm-2">
+            <h3>ตั้งแต่วันที่</h3>
+        </div>
+        <div class="col-sm-2">
+            <h3>ถึงวันที่</h3>
+        </div>
+        <div class="col-sm-2">
+            <h3>สถานะ</h3>
+        </div>
+
+        <div class="col-sm-12" style="text-align: center;padding: 0">
+            <hr>
+        </div>
+        {% for i in transcation %}
+            <div class="col-sm-2">
+                <label>{{ i.create_by }}</label>
+            </div>
+            <div class="col-sm-4">
+                <label>{{ i.reason }}</label>
+            </div>
+            <div class="col-sm-2">
+                <label>{{ i.start_date }}</label>
+            </div>
+            <div class="col-sm-2">
+                <label>{{ i.end_date }}</label>
+            </div>
+            <div class="col-sm-2">
+                {% if i.approve_status == 'อนุมัติ' %}
+                    <div style="background-color: greenyellow;color: white">{{ i.approve_status }}</div>
+                {% endif %}
+                {% if i.approve_status == 'รอการดำเนินการ' %}
+                    <div style="background-color: yellow;color: black">{{ i.approve_status }}</div>
+                {% endif %}
+                {% if i.approve_status == 'ไม่อนุมัติ' %}
+                    <div style="background-color: red;color: white">{{ i.approve_status }}</div>
+                {% endif %}
+            </div>
+
+            <div class="col-sm-12" style="text-align: center;padding: 0">
+                <hr>
+            </div>
+        {% endfor %}
+        <div class="col-sm-12" style="text-align: center;padding: 0">
+            <a href="{% url 'form' %}" style="text-decoration: none">
+                <button type="button" class="btn btn-primary">เขียนใบลา</button>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+<style>
+    .reason {
+        width: 100%;
+        height: 20vh;
+    }
+
+    .col-sm-12 {
+        margin: 10px;
+    }
+
+</style>
