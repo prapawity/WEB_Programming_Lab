@@ -1,4 +1,5 @@
 import datetime
+from audioop import reverse
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -20,6 +21,11 @@ def index(request):
 
         loginUser = authenticate(request, username=username, password=password)
         if loginUser:
+            admin = User.objects.filter(pk=loginUser.id)
+            for i in admin:
+                for j in i.get_group_permissions():
+                    if j == 'admin.change_logentry':
+                        return HttpResponseRedirect("/admin/")
             login(request, loginUser)
             return redirect('main')
         else:
